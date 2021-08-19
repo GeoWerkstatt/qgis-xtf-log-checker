@@ -1,0 +1,16 @@
+[general]
+name=XTFLog-Checker
+qgisMinimumVersion=3.0
+description=Visualize errors in XTF-Log files
+about=This QGIS plugin lets you display XTF-Log files created by the Ilivalidator (https://www.interlis.ch/downloads/ilivalidator). A checklist helps you keep track of your progress when addressing the errors.
+version=0.1
+author=GeoWerkstatt GmbH
+email=support@geowerkstatt.ch
+
+tags=interlis, ili, ilivalidator, xtf, transferfile, swiss, suisse, schweiz
+
+tracker=https://github.com/GeoWerkstatt/qgis-xtf-log-checker/issues
+repository=https://github.com/GeoWerkstatt/qgis-xtf-log-checker.git
+homepage=https://github.com/GeoWerkstatt/qgis-xtf-log-checker
+icon=icon.png
+experimental=False

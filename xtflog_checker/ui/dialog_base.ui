@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>XTFLog_CheckerDialogBase</class>
+ <widget class="QDialog" name="XTFLog_CheckerDialogBase">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>417</width>
+    <height>355</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>XTF-Error Log visualisieren</string>
+  </property>
+  <widget class="QGroupBox" name="newLayerGroupBox">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>20</y>
+     <width>381</width>
+     <height>121</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>xtf logfile aus dem Ilivalidator hochladen</string>
+   </property>
+   <widget class="QPushButton" name="btn_input">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>40</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>... </string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="txt_input">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>40</y>
+      <width>261</width>
+      <height>20</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_cancel">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>80</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Abbrechen</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_run">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>80</y>
+      <width>101</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Layer erstellen</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="existingLayerGroupBox">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>150</y>
+     <width>381</width>
+     <height>131</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Log für vorhandenen Layer anzeigen</string>
+   </property>
+   <widget class="QComboBox" name="layerbox">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>50</y>
+      <width>341</width>
+      <height>22</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="existingLayerLabel">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>361</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>7</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Ausschliesslich Layer die mit diesem Plugin erstellt wurden können ausgewählt werden.</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_show_error_log">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>90</y>
+      <width>151</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Fehler-Protokoll anzeigen</string>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

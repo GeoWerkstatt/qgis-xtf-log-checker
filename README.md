@@ -1,0 +1,11 @@
+# XTFLog-Checker
+
+## What do I use XTFLog-Checker for?
+XTFLog-Checker is a [QGIS](https://www.qgis.org/en/site/) plugin that lets you display errors in XTFLog files created by the [Ilivalidator](https://www.interlis.ch/downloads/ilivalidator). When opening an XTFLog file in QGis with this plugin, a checklist is created that helps you keep track of your progress when addressing the errors.
+
+## Where can I get it?
+Install the [QGIS XTFLog-Checker](https://plugins.qgis.org/plugins) directly in QGIS by using the [Plugins menu](http://docs.qgis.org/latest/en/docs/user_manual/plugins/plugins.html).
+
+## License
+The XTFLog-Checker plugin is licensed under the [GPL-3.0 license](LICENSE).  
+Copyright © 2021 [GeoWerkstatt GmbH](https://www.geowerkstatt.ch)
