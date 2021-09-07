@@ -40,24 +40,16 @@ class XTFLog_CheckerDialog(QtWidgets.QDialog, FORM_CLASS):
         self.setupUi(self)
         self.btn_input.clicked.connect(self.getInputFile)
         self.btn_run.clicked.connect(self.visualizeLog)
-        self.btn_run.setText(QCoreApplication.translate(
-            'generals', 'Create layer'))
+        self.btn_run.setText(QCoreApplication.translate('generals', 'Create layer'))
         self.btn_run.setEnabled(file_path != None)
         self.btn_cancel.clicked.connect(self.closePlugin)
-        self.btn_cancel.setText(
-            QCoreApplication.translate('generals', 'Cancel'))
-        self.attributeNames = ["Type", "Message", "Tid", "ObjTag", "TechId",
-                               "UserId", "IliQName", "DataSource", "Line", "TechDetail"]
+        self.btn_cancel.setText(QCoreApplication.translate('generals', 'Cancel'))
+        self.attributeNames = ["Type", "Message", "Tid", "ObjTag", "TechId", "UserId", "IliQName", "DataSource", "Line", "TechDetail"]
         self.btn_show_error_log.clicked.connect(self.showErrorLog)
-        self.btn_show_error_log.setText(
-            QCoreApplication.translate('generals', 'Show error log'))
-        self.newLayerGroupBox.setTitle(
-            QCoreApplication.translate('generals', 'Upload xtf-log file'))
-        self.existingLayerGroupBox.setTitle(QCoreApplication.translate(
-            'generals', 'Show log for existing layer'))
-        self.existingLayerLabel.setText(QCoreApplication.translate(
-            'generals', 'Only layers created with this plugin can be selected'))
-
+        self.btn_show_error_log.setText(QCoreApplication.translate('generals', 'Show error log'))
+        self.newLayerGroupBox.setTitle(QCoreApplication.translate('generals', 'Upload xtf-log file'))
+        self.existingLayerGroupBox.setTitle(QCoreApplication.translate('generals', 'Show log for existing layer'))
+        self.existingLayerLabel.setText(QCoreApplication.translate('generals', 'Only layers created with this plugin can be selected'))
         self.dock = None
         self.errorLayer = None
         self.iface = iface
@@ -68,8 +60,7 @@ class XTFLog_CheckerDialog(QtWidgets.QDialog, FORM_CLASS):
 
     def getInputFile(self):
         self.btn_run.setEnabled(False)
-        datei = QtWidgets.QFileDialog.getOpenFileName(
-            None, 'Upload', filter="*.xtf")[0]
+        datei = QtWidgets.QFileDialog.getOpenFileName(None, 'Upload', filter="*.xtf")[0]
         self.txt_input.setText(datei)
         if self.txt_input.text() != "":
             self.btn_run.setEnabled(True)
@@ -81,8 +72,7 @@ class XTFLog_CheckerDialog(QtWidgets.QDialog, FORM_CLASS):
         root = tree.getroot()
         x = None
         y = None
-        errorLayer = QgsVectorLayer(
-            "Point?crs=epsg:2056", fileName + "_Ilivalidator_Errors", "memory")
+        errorLayer = QgsVectorLayer("Point?crs=epsg:2056", fileName + "_Ilivalidator_Errors", "memory")
         errorDataProvider = errorLayer.dataProvider()
 
         errorDataProvider.addAttributes([QgsField("ErrorId", QVariant.String),
@@ -119,7 +109,6 @@ class XTFLog_CheckerDialog(QtWidgets.QDialog, FORM_CLASS):
             for attributeName in self.attributeNames:
                 element = child.find(interlisPrefix + attributeName)
                 attributes[attributeName] = (element.text if element != None else "")
-            
             if attributes["Type"] == 'Error' or attributes["Type"] == 'Warning':
                 GeometryElement = child.find(interlisPrefix + 'Geometry')
                 if GeometryElement != None:
@@ -132,7 +121,8 @@ class XTFLog_CheckerDialog(QtWidgets.QDialog, FORM_CLASS):
                             f.setGeometry(QgsGeometry.fromPointXY(QgsPointXY(float(x), float(y))))
                         attributeList = [ErrorId]
                         attributeList.extend(list(attributes.values()))
-                        attributeList.append(0)  # set Checked attribute to unchecked
+                        # set Checked attribute to unchecked
+                        attributeList.append(0)
                         f.setAttributes(attributeList)
                         errorDataProvider.addFeature(f)
 
