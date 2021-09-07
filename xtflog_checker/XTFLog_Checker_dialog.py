@@ -112,25 +112,25 @@ class XTFLog_CheckerDialog(QtWidgets.QDialog, FORM_CLASS):
 
         QgsProject.instance().addMapLayer(errorLayer)
 
-        for child in root.iter('{http://www.interlis.ch/INTERLIS2.3}IliVErrors.ErrorLog.Error'):
+        interlisPrefix = '{http://www.interlis.ch/INTERLIS2.3}'
+        for child in root.iter(interlisPrefix + 'IliVErrors.ErrorLog.Error'):
 
             ErrorId = child.attrib["TID"]
 
             attributes = {}
             for attributeName in self.attributeNames:
-                element = child.find('{http://www.interlis.ch/INTERLIS2.3}' + attributeName)
+                element = child.find(interlisPrefix + attributeName)
                 attributes[attributeName] = (element.text if element != None else "")
 
-            GeometryElement = child.find(
-                '{http://www.interlis.ch/INTERLIS2.3}Geometry')
+            GeometryElement = child.find(interlisPrefix + 'Geometry')
 
             if attributes["Type"] == 'Error' or attributes["Type"] == 'Warning':
 
                 if(GeometryElement != None):
                     f = QgsFeature()
-                    for C1 in child.iter('{http://www.interlis.ch/INTERLIS2.3}C1'):
+                    for C1 in child.iter(interlisPrefix + 'C1'):
                         x = C1.text
-                    for C2 in child.iter('{http://www.interlis.ch/INTERLIS2.3}C2'):
+                    for C2 in child.iter(interlisPrefix + 'C2'):
                         y = C2.text
                     if(x and y):
                         f.setGeometry(QgsGeometry.fromPointXY(
