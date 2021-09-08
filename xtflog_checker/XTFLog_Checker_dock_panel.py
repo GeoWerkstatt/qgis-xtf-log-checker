@@ -39,7 +39,6 @@ class XTFLog_DockPanel(QDockWidget, FORM_CLASS):
         super().__init__(parent)
         self.iface = iface
         self.setupUi(self)
-
         self.errorLayer = errorLayer
         QgsProject.instance().layerWillBeRemoved[str].connect(self.layersWillBeRemoved)
         self.checkBox_errors.stateChanged.connect(self.evaluateCheckButtons)
@@ -78,8 +77,7 @@ class XTFLog_DockPanel(QDockWidget, FORM_CLASS):
         request = QgsFeatureRequest().setFilterExpression(expression)
         if self.errorLayer:
             for error_feat in self.errorLayer.getFeatures(request):
-                listEntry = error_feat.attributes(
-                )[error_idx] + " -- " + error_feat.attributes()[message_idx]
+                listEntry = error_feat.attributes()[error_idx] + " -- " + error_feat.attributes()[message_idx]
                 widgetItem = QListWidgetItem(listEntry, self.listWidget)
                 widgetItem.setCheckState(error_feat['Checked'])
         self.isUpdating = False
@@ -92,8 +90,7 @@ class XTFLog_DockPanel(QDockWidget, FORM_CLASS):
             self.highlight.hide()
         if not self.listWidget.selectedItems():
             return
-        selectedErrorId = self.listWidget.selectedItems()[
-            0].text().split(" -- ")[0]
+        selectedErrorId = self.listWidget.selectedItems()[0].text().split(" -- ")[0]
         expression = " \"ErrorId\" = '{}' ".format(selectedErrorId)
         try:
             self.errorLayer.selectByExpression(expression, QgsVectorLayer.SetSelection)

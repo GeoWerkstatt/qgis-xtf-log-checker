@@ -40,24 +40,16 @@ class XTFLog_CheckerDialog(QtWidgets.QDialog, FORM_CLASS):
         self.setupUi(self)
         self.btn_input.clicked.connect(self.getInputFile)
         self.btn_run.clicked.connect(self.visualizeLog)
-        self.btn_run.setText(QCoreApplication.translate(
-            'generals', 'Create layer'))
+        self.btn_run.setText(QCoreApplication.translate('generals', 'Create layer'))
         self.btn_run.setEnabled(file_path != None)
         self.btn_cancel.clicked.connect(self.closePlugin)
-        self.btn_cancel.setText(
-            QCoreApplication.translate('generals', 'Cancel'))
-        self.attributeNames = ["Type", "Message", "Tid", "ObjTag", "TechId",
-                               "UserId", "IliQName", "DataSource", "Line", "TechDetail"]
+        self.btn_cancel.setText(QCoreApplication.translate('generals', 'Cancel'))
+        self.attributeNames = ["Type", "Message", "Tid", "ObjTag", "TechId", "UserId", "IliQName", "DataSource", "Line", "TechDetail"]
         self.btn_show_error_log.clicked.connect(self.showErrorLog)
-        self.btn_show_error_log.setText(
-            QCoreApplication.translate('generals', 'Show error log'))
-        self.newLayerGroupBox.setTitle(
-            QCoreApplication.translate('generals', 'Upload xtf-log file'))
-        self.existingLayerGroupBox.setTitle(QCoreApplication.translate(
-            'generals', 'Show log for existing layer'))
-        self.existingLayerLabel.setText(QCoreApplication.translate(
-            'generals', 'Only layers created with this plugin can be selected'))
-
+        self.btn_show_error_log.setText(QCoreApplication.translate('generals', 'Show error log'))
+        self.newLayerGroupBox.setTitle(QCoreApplication.translate('generals', 'Upload xtf-log file'))
+        self.existingLayerGroupBox.setTitle(QCoreApplication.translate('generals', 'Show log for existing layer'))
+        self.existingLayerLabel.setText(QCoreApplication.translate('generals', 'Only layers created with this plugin can be selected'))
         self.dock = None
         self.errorLayer = None
         self.iface = iface
@@ -68,8 +60,7 @@ class XTFLog_CheckerDialog(QtWidgets.QDialog, FORM_CLASS):
 
     def getInputFile(self):
         self.btn_run.setEnabled(False)
-        datei = QtWidgets.QFileDialog.getOpenFileName(
-            None, 'Upload', filter="*.xtf")[0]
+        datei = QtWidgets.QFileDialog.getOpenFileName(None, 'Upload', filter="*.xtf")[0]
         self.txt_input.setText(datei)
         if self.txt_input.text() != "":
             self.btn_run.setEnabled(True)
@@ -81,8 +72,7 @@ class XTFLog_CheckerDialog(QtWidgets.QDialog, FORM_CLASS):
         root = tree.getroot()
         x = None
         y = None
-        errorLayer = QgsVectorLayer(
-            "Point?crs=epsg:2056", fileName + "_Ilivalidator_Errors", "memory")
+        errorLayer = QgsVectorLayer("Point?crs=epsg:2056", fileName + "_Ilivalidator_Errors", "memory")
         errorDataProvider = errorLayer.dataProvider()
 
         errorDataProvider.addAttributes([QgsField("ErrorId", QVariant.String),
@@ -112,34 +102,29 @@ class XTFLog_CheckerDialog(QtWidgets.QDialog, FORM_CLASS):
 
         QgsProject.instance().addMapLayer(errorLayer)
 
-        for child in root.iter('{http://www.interlis.ch/INTERLIS2.3}IliVErrors.ErrorLog.Error'):
-
+        interlisPrefix = '{http://www.interlis.ch/INTERLIS2.3}'
+        for child in root.iter(interlisPrefix + 'IliVErrors.ErrorLog.Error'):
             ErrorId = child.attrib["TID"]
-
             attributes = {}
             for attributeName in self.attributeNames:
-                element = child.find('{http://www.interlis.ch/INTERLIS2.3}' + attributeName)
+                element = child.find(interlisPrefix + attributeName)
                 attributes[attributeName] = (element.text if element != None else "")
-
-            GeometryElement = child.find(
-                '{http://www.interlis.ch/INTERLIS2.3}Geometry')
-
             if attributes["Type"] == 'Error' or attributes["Type"] == 'Warning':
-
-                if(GeometryElement != None):
-                    f = QgsFeature()
-                    for C1 in child.iter('{http://www.interlis.ch/INTERLIS2.3}C1'):
-                        x = C1.text
-                    for C2 in child.iter('{http://www.interlis.ch/INTERLIS2.3}C2'):
-                        y = C2.text
-                    if(x and y):
-                        f.setGeometry(QgsGeometry.fromPointXY(
-                            QgsPointXY(float(x), float(y))))
-                    attributeList = [ErrorId]
-                    attributeList.extend(list(attributes.values()))
-                    attributeList.append(0)  # set checked state to unchecked
-                    f.setAttributes(attributeList)
-                    errorDataProvider.addFeature(f)
+                GeometryElement = child.find(interlisPrefix + 'Geometry')
+                if GeometryElement != None:
+                    Coordinate = GeometryElement.find(interlisPrefix + 'COORD');
+                    if Coordinate != None:
+                        f = QgsFeature()
+                        x = Coordinate.find(interlisPrefix + 'C1').text
+                        y = Coordinate.find(interlisPrefix + 'C2').text
+                        if(x and y):
+                            f.setGeometry(QgsGeometry.fromPointXY(QgsPointXY(float(x), float(y))))
+                        attributeList = [ErrorId]
+                        attributeList.extend(list(attributes.values()))
+                        # set Checked attribute to unchecked
+                        attributeList.append(0)
+                        f.setAttributes(attributeList)
+                        errorDataProvider.addFeature(f)
 
         errorLayer.updateExtents()
         self.errorLayer = errorLayer

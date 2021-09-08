@@ -38,9 +38,6 @@ class DropFileFilter(QObject):
         return False
 
     def eventFilter(self, obj, event):
-        """
-        When exactly one valid import file is dropped, then ask to use it in import dialog.
-        """
         if event.type() == QEvent.Drop:
             if len(event.mimeData().urls()) == 1:
                 if self.is_handling_requested(event.mimeData().urls()[0].toLocalFile()):
