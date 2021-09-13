@@ -48,6 +48,7 @@ class XTFLog_DockPanel(QDockWidget, FORM_CLASS):
         self.checkBox_warnings.setText(QCoreApplication.translate('generals', 'Show warnings'))
         self.listWidget.itemSelectionChanged.connect(self.selectionChanged)
         self.listWidget.itemChanged.connect(self.updateItem)
+        self.setWindowTitle(QCoreApplication.translate('generals', 'Error log'))
         self.highlight = None
 
         if not self.errorLayer:
