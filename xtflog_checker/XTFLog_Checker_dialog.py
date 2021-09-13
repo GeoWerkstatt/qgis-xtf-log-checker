@@ -30,7 +30,6 @@ from PyQt5.QtCore import QCoreApplication
 import requests
 import re
 import xml.etree.ElementTree as ET
-from xml.etree.ElementTree import fromstring, ElementTree
 from .XTFLog_Checker_dock_panel import XTFLog_DockPanel
 
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
@@ -79,7 +78,7 @@ class XTFLog_CheckerDialog(QtWidgets.QDialog, FORM_CLASS):
         if(path.startswith("http")):
             try:
                 xml_string = requests.get(path).content.decode("utf-8") 
-                tree = ElementTree(fromstring(xml_string))
+                tree = ET.ElementTree(ET.fromstring(xml_string))
                 fileName = re.findall("connectionId=(.*?)&fileExtension=", path)[0] if len(re.findall("connectionId=(.*?)&fileExtension=", path))!=0 else None
             except:
                 self.iface.messageBar().pushMessage(QCoreApplication.translate('generals', 'No valid file'), QCoreApplication.translate('generals', 'Could not get a valid XTF-Log file from specified Url'), duration=8)
