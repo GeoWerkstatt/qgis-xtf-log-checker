@@ -51,7 +51,7 @@
     <message>
         <location filename="../XTFLog_Checker_dialog.py" line="85"/>
         <source>Could not get a valid XTF-Log file from specified Url</source>
-        <translation>Keine gültige XTF-Log-Datei konnte von der angegebenen URL abgerufen werden</translation>
+        <translation>Es konnte keine gültige XTF-Log-Datei von der angegebenen URL abgerufen werden</translation>
     </message>
     <message>
         <location filename="../XTFLog_Checker_dialog.py" line="91"/>
