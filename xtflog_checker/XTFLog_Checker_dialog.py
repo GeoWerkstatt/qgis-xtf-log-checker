@@ -77,13 +77,19 @@ class XTFLog_CheckerDialog(QtWidgets.QDialog, FORM_CLASS):
         fileName = None
         if(path.startswith("http")):
             try:
-                xml_string = requests.get(path).content.decode("utf-8") 
+                xml_string = requests.get(path).content.decode("utf-8")
+                if(len(xml_string)>5000000):
+                    self.iface.messageBar().pushMessage(QCoreApplication.translate('generals', 'Large file'),  QCoreApplication.translate('generals', 'Processing of large XTF-Log files might take a while'), duration=8)
+                    self.iface.mainWindow().repaint()
                 tree = ET.ElementTree(ET.fromstring(xml_string))
                 fileName = re.findall("connectionId=(.*?)&fileExtension=", path)[0] if len(re.findall("connectionId=(.*?)&fileExtension=", path))!=0 else None
             except:
                 self.iface.messageBar().pushMessage(QCoreApplication.translate('generals', 'No valid file'), QCoreApplication.translate('generals', 'Could not get a valid XTF-Log file from specified Url'), duration=8)
         else:
             try:
+                if(os.path.getsize(path)>5000000):
+                    self.iface.messageBar().pushMessage(QCoreApplication.translate('generals', 'Large file'),  QCoreApplication.translate('generals', 'Processing of large XTF-Log files might take a while'), duration=8)
+                    self.iface.mainWindow().repaint()
                 tree = ET.parse(path)
                 fileName, fileExtension = os.path.splitext(os.path.basename(path))
             except:
@@ -146,6 +152,11 @@ class XTFLog_CheckerDialog(QtWidgets.QDialog, FORM_CLASS):
                             attributeList.append(0)
                             f.setAttributes(attributeList)
                             errorDataProvider.addFeature(f)
+            if(errorLayer.featureCount()== 0):
+                QgsProject.instance().removeMapLayer(errorLayer)
+                self.iface.messageBar().pushMessage(QCoreApplication.translate('generals', 'No Errors'), QCoreApplication.translate('generals', 'The selected XTF file contains no Ilivalidator-Errors, select another file.'), duration=8)
+                self.close()
+                return
 
             errorLayer.updateExtents()
             self.errorLayer = errorLayer
