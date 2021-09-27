@@ -26,8 +26,6 @@ import os
 from qgis.PyQt import uic
 from qgis.PyQt.QtWidgets import QDockWidget, QListWidgetItem
 from qgis.core import QgsVectorLayer, QgsFeatureRequest, QgsProject
-from qgis.PyQt.QtGui import QColor
-from qgis.gui import QgsHighlight
 from PyQt5.QtCore import QCoreApplication
 import xml.etree.ElementTree as ET
 
@@ -49,17 +47,12 @@ class XTFLog_DockPanel(QDockWidget, FORM_CLASS):
         self.listWidget.itemSelectionChanged.connect(self.selectionChanged)
         self.listWidget.itemChanged.connect(self.updateItem)
         self.setWindowTitle(QCoreApplication.translate('generals', 'Error log'))
-        self.highlight = None
 
         if not self.errorLayer:
             return
         self.layerName.setText(self.errorLayer.name())
         self.listWidget.clear()
         self.updateList()
-
-    def closeEvent(self, event):
-        if self.highlight:
-            self.highlight.hide()
 
     def updateList(self):
         self.isUpdating = True
@@ -87,8 +80,6 @@ class XTFLog_DockPanel(QDockWidget, FORM_CLASS):
         self.updateList()
 
     def selectionChanged(self):
-        if self.highlight:
-            self.highlight.hide()
         if not self.listWidget.selectedItems():
             return
         selectedErrorId = self.listWidget.selectedItems()[0].text().split(" -- ")[0]
@@ -96,16 +87,10 @@ class XTFLog_DockPanel(QDockWidget, FORM_CLASS):
         try:
             self.errorLayer.selectByExpression(expression, QgsVectorLayer.SetSelection)
             self.iface.mapCanvas().zoomToSelected(self.errorLayer)
-            color = QColor(0, 120, 255, 110)
             request = QgsFeatureRequest().setFilterExpression(expression)
             features = self.errorLayer.getFeatures(request)
             for feature in features:
-                self.highlight = QgsHighlight(self.iface.mapCanvas(), feature, self.errorLayer)
-                self.highlight.setBuffer(0.4)
-                self.highlight.setFillColor(color)
-                self.highlight.show()
-                self.highlight.setColor(color)
-                self.iface.mapCanvas().refresh()
+                self.iface.mapCanvas().flashGeometries([feature.geometry()])
         except:
             print("Could not select anything")
 
