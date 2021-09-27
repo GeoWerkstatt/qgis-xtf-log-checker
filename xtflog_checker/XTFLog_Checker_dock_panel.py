@@ -51,6 +51,7 @@ class XTFLog_DockPanel(QDockWidget, FORM_CLASS):
         if not self.errorLayer:
             return
         self.layerName.setText(self.errorLayer.name())
+        self.errorLayerId= self.errorLayer.id()
         self.listWidget.clear()
         self.updateList()
 
@@ -112,5 +113,5 @@ class XTFLog_DockPanel(QDockWidget, FORM_CLASS):
             layer.changeAttributeValue(feat.id(), field_idx, item.checkState())
 
     def layersWillBeRemoved(self, layerId):
-        if(layerId == self.errorLayer.id()):
+        if(layerId == self.errorLayerId):
             self.close()
