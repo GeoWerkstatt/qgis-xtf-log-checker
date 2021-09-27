@@ -50,7 +50,7 @@ class XTFLog_DockPanel(QDockWidget, FORM_CLASS):
         if not self.errorLayer:
             return
         self.layerName.setText(self.errorLayer.name())
-        self.errorLayerId= self.errorLayer.id()
+        self.errorLayerId = self.errorLayer.id()
         self.listWidget.clear()
         self.updateList()
 
