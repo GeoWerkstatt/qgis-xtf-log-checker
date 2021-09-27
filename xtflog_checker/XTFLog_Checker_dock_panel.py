@@ -27,7 +27,6 @@ from qgis.PyQt import uic
 from qgis.PyQt.QtWidgets import QDockWidget, QListWidgetItem
 from qgis.core import QgsVectorLayer, QgsFeatureRequest, QgsProject
 from PyQt5.QtCore import QCoreApplication
-import xml.etree.ElementTree as ET
 
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), 'ui/dock_panel.ui'))
@@ -51,6 +50,7 @@ class XTFLog_DockPanel(QDockWidget, FORM_CLASS):
         if not self.errorLayer:
             return
         self.layerName.setText(self.errorLayer.name())
+        self.errorLayerId = self.errorLayer.id()
         self.listWidget.clear()
         self.updateList()
 
@@ -112,5 +112,5 @@ class XTFLog_DockPanel(QDockWidget, FORM_CLASS):
             layer.changeAttributeValue(feat.id(), field_idx, item.checkState())
 
     def layersWillBeRemoved(self, layerId):
-        if(layerId == self.errorLayer.id()):
+        if(layerId == self.errorLayerId):
             self.close()
