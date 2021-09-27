@@ -179,8 +179,8 @@ class XTFLog_CheckerDialog(QtWidgets.QDialog, FORM_CLASS):
                     self.layerbox.addItem(layer.name())
 
     def showDock(self):
-        if self.dock != None:
-            self.iface.removeDockWidget(self.dock)
+        for dock in self.iface.mainWindow().findChildren(XTFLog_DockPanel):
+            self.iface.removeDockWidget(dock)
         self.dock = XTFLog_DockPanel(self.iface, self.errorLayer)
         self.iface.addDockWidget(Qt.RightDockWidgetArea, self.dock)
         self.close()
