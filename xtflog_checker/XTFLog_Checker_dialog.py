@@ -193,7 +193,7 @@ class XTFLog_CheckerDialog(QtWidgets.QDialog, FORM_CLASS):
         for dock in self.iface.mainWindow().findChildren(XTFLog_DockPanel):
             self.iface.removeDockWidget(dock)
         self.dock = XTFLog_DockPanel(self.iface, self.errorLayer)
-        self.iface.addDockWidget(Qt.RightDockWidgetArea, self.dock)
+        self.iface.addTabifiedDockWidget(Qt.RightDockWidgetArea, self.dock, raiseTab=True)
         self.close()
 
     def closePlugin(self):
