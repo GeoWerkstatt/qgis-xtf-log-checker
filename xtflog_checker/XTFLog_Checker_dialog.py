@@ -46,7 +46,7 @@ class XTFLog_CheckerDialog(QtWidgets.QDialog, FORM_CLASS):
         self.btn_run.setEnabled(file_path != None)
         self.btn_cancel.clicked.connect(self.closePlugin)
         self.btn_cancel.setText(QCoreApplication.translate('generals', 'Cancel'))
-        self.attributeNames = ["Type", "Message", "Tid", "ObjTag", "TechId", "UserId", "IliQName", "DataSource", "Line", "TechDetail"]
+        self.attributeNames = ["Type", "Message", "Tid", "ObjTag", "TechId", "UserId", "IliQName", "DataSource", "Line", "TechDetails"]
         self.btn_show_error_log.clicked.connect(self.showErrorLog)
         self.btn_show_error_log.setText(QCoreApplication.translate('generals', 'Show error log'))
         self.newLayerGroupBox.setTitle(QCoreApplication.translate('generals', 'Upload xtf-log file'))
@@ -112,7 +112,7 @@ class XTFLog_CheckerDialog(QtWidgets.QDialog, FORM_CLASS):
                                             QgsField("IliQName", QVariant.String),
                                             QgsField("DataSource", QVariant.String),
                                             QgsField("Line", QVariant.String),
-                                            QgsField("TechDetail", QVariant.String),
+                                            QgsField("TechDetails", QVariant.String),
                                             QgsField("Checked", QVariant.Int)])
 
             errorLayer.updateFields()
